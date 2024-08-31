@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             BreedPetSeeder::class,
             GenderPetSeeder::class,
             VaccineSeeder::class,
-            TypePetVaccineSeeder::class
+            TypePetVaccineSeeder::class,
+            UserSeeder::class
         ]);
     }
 }
