@@ -23,6 +23,22 @@ class UserValidation
         ];
     }
 
+    public static function getRulesUpdate(string $entity = 'dataUser', ?string $id = null): array
+    {
+        $entityName = rtrim($entity, '.') . '.';
+
+        return [
+            $entityName . 'name' => 'required|string|max:255',
+            $entityName . 'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($id),
+            ]
+        ];
+    }
+
+
     public static function getMessages(string $entity = 'dataUser'): array
     {
         $entityName = rtrim($entity, '.') . '.';

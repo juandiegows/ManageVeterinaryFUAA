@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Actions\User\UserCreate;
+use App\Actions\User\UserUpdate;
 use App\Models\Role;
 use App\Models\User;
 use App\validations\UserValidation;
@@ -43,6 +44,13 @@ class UserManagerComponent extends Component
         $this->roles = Role::all();
     }
 
+    public function setUserForUpdate(User $user)
+    {
+        $this->reset(['dataUser']);
+        $this->dataUser = $user->toArray();
+        $this->modelCreate = true;
+    }
+
     public function loadUsers()
     {
         $searchTerm = '%' . $this->search . '%';
@@ -71,10 +79,10 @@ class UserManagerComponent extends Component
     }
 
     public function store()
-    {  
+    {
         $this->validate(UserValidation::getRules('dataUser', $this->dataUser['id'] ?? ''), UserValidation::getMessages());
         try {
-         
+
             DB::beginTransaction();
             $response =  UserCreate::create($this->dataUser);
             if ($response->errorInfo) {
@@ -86,10 +94,31 @@ class UserManagerComponent extends Component
             $this->loadUsers();
             $this->reset(['dataUser', 'modelCreate']);
         } catch (\Throwable $th) {
-            $this->errorAlert("Ha ocurrido un error", $th->getMessage());
+            $this->reset(['dataUser', 'modelCreate']);
+            flash()->error("Ha ocurrido un error". $th->getMessage());
             DB::rollBack();
         }
+    }
 
+    public function update()
+    {
+        $this->validate(UserValidation::getRulesUpdate('dataUser', $this->dataUser['id'] ?? ''), UserValidation::getMessages());
+        try {
 
+            DB::beginTransaction();
+            $response =  UserUpdate::create($this->dataUser);
+            if ($response->errorInfo) {
+                DB::rollBack();
+                flash()->error('No se pudo actualizar el formulario.');
+            }
+            DB::commit();
+            flash()->success('Se ha actualizado correctamente.');
+            $this->loadUsers();
+            $this->reset(['dataUser', 'modelCreate']);
+        } catch (\Throwable $th) {
+            $this->reset(['dataUser', 'modelCreate']);
+            flash()->error("Ha ocurrido un error". $th->getMessage());
+            DB::rollBack();
+        }
     }
 }

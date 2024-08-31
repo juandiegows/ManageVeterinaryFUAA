@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignIdFor(TypePet::class)->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

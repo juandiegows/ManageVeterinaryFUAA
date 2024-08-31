@@ -26,7 +26,7 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link wire:click="editUser({{ $user->id }})" class="cursor-pointer">
+                                    <x-dropdown-link wire:click="setUserForUpdate({{ $user->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
                                             <svg class="pr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
                                                 <path d="M12.8214 6.10714V12H3V2.17857H8.89286M5.75 7.67857L12.4286 1L14 2.57143L7.32143 9.25M5.75 7.67857L4.96429 10.0357L7.32143 9.25M5.75 7.67857L7.32143 9.25M10.8571 2.57143L12.4286 4.14286" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
@@ -56,7 +56,7 @@
     </div>
 
     @if ($modelCreate)
-    <x-modal maxWidth="w60">
+    <x-modal  maxWidth="w60">
 
         <div wire:click="close" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
@@ -64,7 +64,12 @@
             </svg>
         </div>
         <div class="w-full m-auto p-10 space-y-5 relative">
+            @if (!isset($dataUser['id']))
             <h3 class="text-2xl text-white"> Crear Usuarios </h3>
+            @else
+            <h3 class="text-2xl text-white"> Actualizar Usuarios </h3>
+            @endif
+
         </div>
         <div class="flex flex-wrap w-[95%] m-auto">
             <div class="mb-3 w-[48%]">
@@ -91,6 +96,7 @@
                 @enderror
             </div>
             <div class=" w-[48%]"></div>
+            @if (!isset($dataUser['id']))
             <h3 class="w-full text-white text-2xl my-2">Inicio de sesión</h3>
             <div class="mb-3 w-[48%]">
                 <x-password modelPass="dataUser.password" placeholder="Ingresar la contraseña" />
@@ -105,10 +111,17 @@
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
+            @endif
+
         </div>
 
         <div class="w-[95%] m-auto flex items-center justify-end my-5">
+            @if (!isset($dataUser['id']))
             <x-button class="mx-4" wire:click="store">Guardar Usuario</x-button>
+            @else
+            <x-button class="mx-4" wire:click="update">Actualizar Usuario</x-button>
+            @endif
+
         </div>
 
 

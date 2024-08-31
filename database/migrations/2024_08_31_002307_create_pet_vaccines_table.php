@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Pet::class)->constrained();
             $table->foreignIdFor(Vaccine::class)->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
