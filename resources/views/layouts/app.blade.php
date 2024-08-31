@@ -33,7 +33,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="m-auto w-[80%]">
                 {{ $slot }}
             </main>
         </div>
