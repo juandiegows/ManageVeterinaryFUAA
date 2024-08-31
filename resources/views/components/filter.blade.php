@@ -9,7 +9,7 @@
             </div>
         @endif
         <div
-            class="flex items-center bg-white hover:border-[#265A6F]
+            class="flex items-center bg-[#333333] hover:border-[#265A6F]
              border rounded-xl w-80 max-w-full shadow-sm ml-auto h-[42px]">
             <div class="pl-4">
                 <svg class="fill-current text-gray-500 w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -19,7 +19,7 @@
                 </svg>
             </div>
             <input wire:model.live="{{ $model }}"
-                class="w-full border-0 bg-white text-black leading-tight
+                class="w-full border-0 bg-[#333333] text-white leading-tight
                  rounded-xl focus:outline-none focus:ring-0 py-3 px-4 h-9 "  name="unique-name"
                 type="search" placeholder="Buscar" autocomplete="off"  >
         </div>

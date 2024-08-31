@@ -2,7 +2,7 @@
     <div class="w-full flex items-center justify-end my-5">
 
         <x-filter class="w-80" model="search" />
-
+        <x-button class="mx-4" wire:click="showAdd">Agregar Usuarios</x-button>
     </div>
 
     <div class="w-full h-full mb-2">
@@ -54,6 +54,66 @@
             </x-slot>
         </x-table>
     </div>
+
+    @if ($modelCreate)
+    <x-modal maxWidth="w60">
+
+        <div wire:click="close" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
+                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+            </svg>
+        </div>
+        <div class="w-full m-auto p-10 space-y-5 relative">
+            <h3 class="text-2xl text-white"> Crear Usuarios </h3>
+        </div>
+        <div class="flex flex-wrap w-[95%] m-auto">
+            <div class="mb-3 w-[48%]">
+                <x-input type="text" wire:model="dataUser.name" class="px-2 py-2 border w-full text-white outline-none rounded-md" placeholder="Ingresar el nombre" />
+                @error('dataUser.name')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-3 w-[48%] ml-[2%]">
+                <x-input type="text" wire:model="dataUser.email" class="px-2 py-2 border w-full text-white outline-none rounded-md" placeholder="Ingresar el correo" />
+                @error('dataUser.email')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-3 w-[48%]">
+                <select wire:model="dataUser.role_id" class="px-2 py-2 border w-full bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar el rol">
+                    @foreach ($roles as $rolItem)
+                    <option value="{{  $rolItem['id'] }}"> {{ $rolItem['name'] }}</option>
+                    @endforeach
+                </select>
+                @error('dataUser.role_id')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class=" w-[48%]"></div>
+            <h3 class="w-full text-white text-2xl my-2">Inicio de sesión</h3>
+            <div class="mb-3 w-[48%]">
+                <x-password modelPass="dataUser.password" placeholder="Ingresar la contraseña" />
+                @error('dataUser.password')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-3 w-[48%] ml-[2%]">
+                <x-password modelPass="dataUser.password_confirmation" placeholder="Confirme la contraseña" />
+                @error('dataUser.password_confirmation')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="w-[95%] m-auto flex items-center justify-end my-5">
+            <x-button class="mx-4" wire:click="store">Guardar Usuario</x-button>
+        </div>
+
+
+    </x-modal>
+    @endif
 
 
 </div>
