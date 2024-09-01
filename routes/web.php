@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\PetManagerComponent;
 use App\Livewire\UserManagerComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,7 @@ Route::middleware([
 
     Route::get('/users/manage',UserManagerComponent::class)->name('manage-users');
 
-    Route::get('/pets/manage', function () {
-        return view('manage-pets');
-    })->name('manage-pets');
+    Route::get('/pets/manage', PetManagerComponent::class)->name('manage-pets');
 
     Route::get('/vaccines/manage', function () {
         return view('manage-vaccines');
