@@ -26,6 +26,7 @@ class PetManagerComponent extends Component
     public $search = '';
     public $users;
     public $modelCreate = false;
+    public $modelDelete = false;
 
     #[Validate('image|max:1024')]
     public $photo;
@@ -92,6 +93,27 @@ class PetManagerComponent extends Component
     {
 
         $this->users = User::where('role_id', 2)->get();
+    }
+
+
+    public function deletePet(Pet $user, $confirmed = false)
+    {
+        try {
+
+            if ($confirmed) {
+                $user->delete();
+                flash()->success('Se ha eliminado correctamente.');
+                $this->loadPets();
+                $this->reset(['dataPet', 'modelDelete']);
+            } else {
+                $this->dataPet = $user->toArray();
+                $this->modelDelete = true;
+            }
+        } catch (\Throwable $th) {
+            $this->reset(['dataPet', 'modelDelete']);
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
+            DB::rollBack();
+        }
     }
 
 
