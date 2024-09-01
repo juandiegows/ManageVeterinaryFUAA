@@ -12,6 +12,7 @@ use Livewire\Component;
 class VaccineManagerComponent extends Component
 {
     public $vaccines;
+    public $types = [];
     public $dataVaccine = [
         'typePets' => []
     ];
@@ -32,14 +33,30 @@ class VaccineManagerComponent extends Component
 
     public function loadVaccines()
     {
-        $this->vaccines = Vaccine::all();
+        $this->vaccines = Vaccine::orderByDesc('created_at')->get();
     }
 
-    
+
     public function showAdd()
     {
         $this->reset(['dataVaccine']);
         $this->modelCreate = true;
+    }
+
+    public function setVaccineForUpdate(Vaccine $vaccine)
+    {
+        $this->reset(['dataVaccine', 'modelCreate']);
+        $this->dataVaccine = $vaccine->toArray();
+        $this->dataVaccine['typePets'] = $vaccine->typePets()->pluck('type_pet_id')->toArray();
+        $this->types = $vaccine->typePets()->pluck('type_pet_id')->toArray();
+        $this->modelCreate = true;
+        $this->render();
+    }
+
+    public function inVaccine($element)
+    {
+
+        return in_array($element, $this->types);
     }
 
     public function loadTypePets()
@@ -47,7 +64,8 @@ class VaccineManagerComponent extends Component
         $this->typePets = TypePet::all();
     }
 
-    function toggleElement($element) {
+    function toggleElement($element)
+    {
         if (in_array($element, $this->dataVaccine['typePets'])) {
             $this->dataVaccine['typePets'] = array_diff($this->dataVaccine['typePets'], [$element]);
         } else {
@@ -77,9 +95,8 @@ class VaccineManagerComponent extends Component
             $this->reset(['dataVaccine', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataVaccine', 'modelCreate']);
-            flash()->error("Ha ocurrido un error". $th->getMessage());
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
             DB::rollBack();
         }
     }
-
 }

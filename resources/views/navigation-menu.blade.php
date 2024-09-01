@@ -28,13 +28,13 @@
                         {{ __('Administrar Vacuna') }}
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('manage-pet-types') }}" :active="request()->routeIs('manage-pet-types')">
+                    {{-- <x-nav-link href="{{ route('manage-pet-types') }}" :active="request()->routeIs('manage-pet-types')">
                         {{ __('Administrar Tipo de mascota') }}
                     </x-nav-link>
 
                     <x-nav-link href="{{ route('manage-pet-breeds') }}" :active="request()->routeIs('manage-pet-breeds')">
                         {{ __('Administrar raza') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                 </div>
             </div>
 

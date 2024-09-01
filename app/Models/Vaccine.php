@@ -15,5 +15,9 @@ class Vaccine extends Model
         'description'
     ];
 
+    public function typePets(){
+
+        return $this->belongsToMany(TypePet::class, TypePetVaccine::class);
+    }
 
 }

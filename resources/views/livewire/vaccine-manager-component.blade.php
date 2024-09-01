@@ -1,4 +1,4 @@
-<div>
+<div class="my-4">
     <div class="w-full flex items-center justify-end my-5">
         <x-filter class="w-80" model="search" />
         <x-button class="mx-4" wire:click="showAdd">Agregar Vacuna</x-button>
@@ -25,13 +25,13 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link wire:click="setPetForUpdate({{ $vaccine->id }})" class="cursor-pointer">
+                                    <x-dropdown-link wire:click="setVaccineForUpdate({{ $vaccine->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
                                             <svg class="pr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
                                                 <path d="M12.8214 6.10714V12H3V2.17857H8.89286M5.75 7.67857L12.4286 1L14 2.57143L7.32143 9.25M5.75 7.67857L4.96429 10.0357L7.32143 9.25M5.75 7.67857L7.32143 9.25M10.8571 2.57143L12.4286 4.14286" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
 
-                                            {{ __('Editar Mascota') }}
+                                            {{ __('Editar Vacuna') }}
                                         </div>
                                     </x-dropdown-link>
 
@@ -74,7 +74,7 @@
                     @endif
                 </div>
 
-                <div class="flex flex-wrap w-[95%] m-auto"  wire:ignore>
+                <div class="flex flex-wrap w-[95%] m-auto" wire:ignore>
 
                     <div class="mb-3 w-full">
                         <x-label class="my-2">Nombre de la vacuna</x-label>
@@ -96,7 +96,12 @@
                         <div class="flex gap-2">
                             <div class="inline-flex items-center">
                                 <label class="relative flex cursor-pointer items-center rounded-full " for="type_{{ $typePetItem['id'] }}" data-ripple-dark="true">
-                                    <input type="checkbox" @if(in_array($typePetItem['id'], $this->dataVaccine['typePets'])) checked @endif wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
+                                    @if (in_array($typePetItem['id'], $this->dataVaccine['typePets']))
+                                    <input type="checkbox"  checked wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
+                                    @else
+                                    <input type="checkbox" wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
+
+                                    @endif
                                     <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
