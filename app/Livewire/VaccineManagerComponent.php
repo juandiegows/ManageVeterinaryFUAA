@@ -17,6 +17,7 @@ class VaccineManagerComponent extends Component
         'typePets' => []
     ];
     public $modelCreate = false;
+    public $modelDelete = false;
     public $typePets;
 
     public function mount()
@@ -50,7 +51,6 @@ class VaccineManagerComponent extends Component
         $this->dataVaccine['typePets'] = $vaccine->typePets()->pluck('type_pet_id')->toArray();
         $this->types = $vaccine->typePets()->pluck('type_pet_id')->toArray();
         $this->modelCreate = true;
-        $this->render();
     }
 
     public function inVaccine($element)
@@ -72,6 +72,29 @@ class VaccineManagerComponent extends Component
             $this->dataVaccine['typePets'][] = $element;
         }
     }
+
+    
+    public function deleteVaccine(Vaccine $vaccine, $confirmed = false)
+    {
+        try {
+
+            if ($confirmed) {
+                $vaccine->TypePetVaccine()->delete();
+                $vaccine->delete();
+                flash()->success('Se ha eliminado correctamente.');
+                $this->loadVaccines();
+                $this->reset(['dataVaccine', 'modelDelete']);
+            } else {
+                $this->dataVaccine = $vaccine->toArray();
+                $this->modelDelete = true;
+            }
+        } catch (\Throwable $th) {
+            $this->reset(['dataVaccine', 'modelDelete']);
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
+            DB::rollBack();
+        }
+    }
+
 
     public function store()
     {
