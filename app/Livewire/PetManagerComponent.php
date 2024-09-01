@@ -7,8 +7,10 @@ use App\Actions\Pet\PetUpdate;
 use App\Models\BreedPet;
 use App\Models\GenderPet;
 use App\Models\Pet;
+use App\Models\PetVaccine;
 use App\Models\TypePet;
 use App\Models\User;
+use App\Models\Vaccine;
 use App\validations\PetValidation;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
@@ -25,12 +27,15 @@ class PetManagerComponent extends Component
     public $breeds;
     public $search = '';
     public $users;
+    public $vaccines;
     public $modelCreate = false;
     public $modelDelete = false;
+    public $modelVaccinate = false;
 
     #[Validate('image|max:1024')]
     public $photo;
     public $dataPet = [];
+    public $vaccinateId = null;
     public function mount()
     {
         $this->loadPets();
@@ -39,6 +44,15 @@ class PetManagerComponent extends Component
         $this->loadBreeds();
         $this->loadUsers();
     }
+
+
+    public function loadVaccines()
+    {
+        $this->vaccines = Vaccine::whereHas('TypePetVaccine', function ($query) {
+            $query->where('type_pet_id', $this->dataPet['type_pet_id']);
+        })->get();
+    }
+
 
     public function render()
     {
@@ -95,18 +109,34 @@ class PetManagerComponent extends Component
         $this->users = User::where('role_id', 2)->get();
     }
 
+    public function vaccinate(Pet $pet, $confirmed = false)
+    {
+        if ($confirmed) {
+            $this->validate(["vaccinateId" => "required"], ["required" => "Debe seleccionar una  vacuna"]);
+            $vaccine = new PetVaccine();
+            $vaccine->vaccine_id = $this->vaccinateId;
+            $vaccine->pet_id = $this->dataPet['id'];
+            $vaccine->save();
+            flash()->success('Se ha aplicado la vacuna correctamente.');
+            $this->reset(['dataPet', 'modelVaccinate']);
+        } else {
+            $this->dataPet = $pet->toArray();
+            $this->loadVaccines();
+            $this->modelVaccinate = true;
+        }
+    }
 
-    public function deletePet(Pet $user, $confirmed = false)
+    public function deletePet(Pet $pet, $confirmed = false)
     {
         try {
 
             if ($confirmed) {
-                $user->delete();
+                $pet->delete();
                 flash()->success('Se ha eliminado correctamente.');
                 $this->loadPets();
                 $this->reset(['dataPet', 'modelDelete']);
             } else {
-                $this->dataPet = $user->toArray();
+                $this->dataPet = $pet->toArray();
                 $this->modelDelete = true;
             }
         } catch (\Throwable $th) {
@@ -146,7 +176,7 @@ class PetManagerComponent extends Component
         $this->modelCreate = true;
     }
 
-    
+
     public function update()
     {
         $this->validate(PetValidation::getRules('dataPet', $this->dataPet['id'] ?? ''), PetValidation::getMessages());
@@ -168,5 +198,4 @@ class PetManagerComponent extends Component
             DB::rollBack();
         }
     }
-
 }
