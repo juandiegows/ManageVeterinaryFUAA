@@ -17,6 +17,7 @@ class UserManagerComponent extends Component
     public $users;
     public $search = '';
     public $modelCreate = false;
+    public $modelDelete = false;
     public $dataUser = [
         'role_id' => 1
     ];
@@ -78,6 +79,28 @@ class UserManagerComponent extends Component
         $this->modelCreate = true;
     }
 
+
+    public function deleteUser(User $user, $confirmed = false)
+    {
+        try {
+
+            if ($confirmed) {
+                $user->delete();
+                flash()->success('Se ha eliminado correctamente.');
+                $this->loadUsers();
+                $this->reset(['dataUser', 'modelDelete']);
+            } else {
+                $this->dataUser = $user->toArray();
+                $this->modelDelete = true;
+            }
+        } catch (\Throwable $th) {
+            $this->reset(['dataUser', 'modelCreate']);
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
+            DB::rollBack();
+        }
+    }
+
+
     public function store()
     {
         $this->validate(UserValidation::getRules('dataUser', $this->dataUser['id'] ?? ''), UserValidation::getMessages());
@@ -95,7 +118,7 @@ class UserManagerComponent extends Component
             $this->reset(['dataUser', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataUser', 'modelCreate']);
-            flash()->error("Ha ocurrido un error". $th->getMessage());
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
             DB::rollBack();
         }
     }
@@ -117,7 +140,7 @@ class UserManagerComponent extends Component
             $this->reset(['dataUser', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataUser', 'modelCreate']);
-            flash()->error("Ha ocurrido un error". $th->getMessage());
+            flash()->error("Ha ocurrido un error" . $th->getMessage());
             DB::rollBack();
         }
     }

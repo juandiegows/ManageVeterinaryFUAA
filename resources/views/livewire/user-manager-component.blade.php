@@ -38,8 +38,29 @@
 
                                     <x-dropdown-link wire:click="deleteUser({{ $user->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
-                                            <svg class="pr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
-                                                <path d="M14 11V15H2V11M8 2V12M8 12L4 8M8 12L12 8" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 64">
+                                                <defs>
+                                                    <style>
+                                                        .cls-1 {
+                                                            fill: #ff2400;
+                                                        }
+
+                                                        .cls-2 {
+                                                            fill: #ba1d08;
+                                                        }
+
+                                                    </style>
+                                                </defs>
+                                                <title>Trash Can</title>
+                                                <g id="Layer_2" data-name="Layer 2">
+                                                    <g id="Layer_1-2" data-name="Layer 1">
+                                                        <path class="cls-1" d="M42.48,64h-29a6,6,0,0,1-6-5.5L4,16H52L48.46,58.5A6,6,0,0,1,42.48,64Z" />
+                                                        <path class="cls-2" d="M52,8H38V6a6,6,0,0,0-6-6H24a6,6,0,0,0-6,6V8H4a4,4,0,0,0-4,4v4H56V12A4,4,0,0,0,52,8ZM22,6a2,2,0,0,1,2-2h8a2,2,0,0,1,2,2V8H22Z" />
+                                                        <path class="cls-2" d="M28,58a2,2,0,0,1-2-2V24a2,2,0,0,1,4,0V56A2,2,0,0,1,28,58Z" />
+                                                        <path class="cls-2" d="M38,58h-.13A2,2,0,0,1,36,55.88l2-32a2,2,0,1,1,4,.25l-2,32A2,2,0,0,1,38,58Z" />
+                                                        <path class="cls-2" d="M18,58a2,2,0,0,1-2-1.87l-2-32a2,2,0,0,1,4-.25l2,32A2,2,0,0,1,18.13,58Z" />
+                                                    </g>
+                                                </g>
                                             </svg>
 
                                             {{ __('Eliminar Usuario') }}
@@ -129,6 +150,30 @@
             </x-modal>
         </template>
     </div>
+
+
+    <div x-data="{ modelCreate: $wire.entangle('modelDelete') }">
+        <template x-if="modelCreate">
+            <x-modal maxWidth="w60">
+                <div @click="modelCreate = false" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                </div>
+
+                <div class="w-full m-auto p-10 space-y-5 relative">
+                    <h3 class="text-2xl text-white">Eliminar Usuarios</h3>
+                    <p class="text-white">¿está seguro que desea eliminar el usuario <b class="text-red-900">{{ $dataUser['name'] ?? '' }} </b>?</p>
+                </div>
+
+          
+                <div class="w-[95%] m-auto flex items-center justify-end my-5">
+                    <x-button class="mx-4" wire:click="deleteUser({{ $dataUser['id'] ?? '' }}, true)">Eliminar Usuario</x-button>
+                </div>
+            </x-modal>
+        </template>
+    </div>
+
 
 
 
