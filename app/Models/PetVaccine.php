@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PetVaccine extends Model
 {
     use HasFactory;
+    public function Vaccine(){
+        return $this->belongsTo(Vaccine::class);
+    }
 }

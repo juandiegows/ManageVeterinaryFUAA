@@ -28,9 +28,11 @@ class PetManagerComponent extends Component
     public $search = '';
     public $users;
     public $vaccines;
+    public $vaccinesRecord;
     public $modelCreate = false;
     public $modelDelete = false;
     public $modelVaccinate = false;
+    public $modalRecordVaccinate = false;
 
     #[Validate('image|max:1024')]
     public $photo;
@@ -107,6 +109,14 @@ class PetManagerComponent extends Component
     {
 
         $this->users = User::where('role_id', 2)->get();
+    }
+
+
+    public function vaccinateRecord(Pet $pet)
+    {
+        $this->dataPet = $pet->toArray();
+        $this->vaccinesRecord = $pet->petVaccines;
+        $this->modalRecordVaccinate = true;
     }
 
     public function vaccinate(Pet $pet, $confirmed = false)
