@@ -74,7 +74,7 @@
                     @endif
                 </div>
 
-                <div class="flex flex-wrap w-[95%] m-auto">
+                <div class="flex flex-wrap w-[95%] m-auto"  wire:ignore>
 
                     <div class="mb-3 w-full">
                         <x-label class="my-2">Nombre de la vacuna</x-label>
