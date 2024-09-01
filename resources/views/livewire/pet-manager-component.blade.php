@@ -318,7 +318,7 @@
                         @foreach ($vaccinesRecord ?? [] as $vaccinesRecordItem)
                         <tr class="text-[#f7f7f7] my-2 bg-[#1f2937]/40  text-center h-16 shadow-md shadow-[#000000]/5 hover:bg-[#c5c5c5]/40 font-normal text-[#393D40]">
                             <td class="text-left my-2 px-8 rounded-l-xl"> {{ $vaccinesRecordItem->Vaccine->name ?? '' }} </td>
-                            <td class="text-center px-8"> {{ $vaccinesRecordItem->created_at->format('d-m-Y') ?? '' }} </td>
+                            <td class="text-end px-8"> {{ $vaccinesRecordItem->created_at->format('d-m-Y H:m') ?? '' }} </td>
 
                         </tr>
                         @endforeach
