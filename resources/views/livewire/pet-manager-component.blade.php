@@ -28,13 +28,13 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link wire:click="setUserForUpdate({{ $pet->id }})" class="cursor-pointer">
+                                    <x-dropdown-link wire:click="setPetForUpdate({{ $pet->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
                                             <svg class="pr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
                                                 <path d="M12.8214 6.10714V12H3V2.17857H8.89286M5.75 7.67857L12.4286 1L14 2.57143L7.32143 9.25M5.75 7.67857L4.96429 10.0357L7.32143 9.25M5.75 7.67857L7.32143 9.25M10.8571 2.57143L12.4286 4.14286" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
 
-                                            {{ __('Editar Usuario') }}
+                                            {{ __('Editar Mascota') }}
                                         </div>
                                     </x-dropdown-link>
 
@@ -178,10 +178,10 @@
                 </div>
 
                 <div class="w-[95%] m-auto flex items-center justify-end my-5">
-                    @if (!isset($dataUser['id']))
-                    <x-button class="mx-4" wire:click="store">Guardar Usuario</x-button>
+                    @if (!isset($dataPet['id']))
+                    <x-button class="mx-4" wire:click="store">Guardar Mascota</x-button>
                     @else
-                    <x-button class="mx-4" wire:click="update">Actualizar Usuario</x-button>
+                    <x-button class="mx-4" wire:click="update">Actualizar Mascota</x-button>
                     @endif
                 </div>
             </x-modal>
