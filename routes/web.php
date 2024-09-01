@@ -2,6 +2,7 @@
 
 use App\Livewire\PetManagerComponent;
 use App\Livewire\UserManagerComponent;
+use App\Livewire\VaccineManagerComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,9 +22,7 @@ Route::middleware([
 
     Route::get('/pets/manage', PetManagerComponent::class)->name('manage-pets');
 
-    Route::get('/vaccines/manage', function () {
-        return view('manage-vaccines');
-    })->name('manage-vaccines');
+    Route::get('/vaccines/manage', VaccineManagerComponent::class)->name('manage-vaccines');
 
     Route::get('/pet-types/manage', function () {
         return view('manage-pet-types');

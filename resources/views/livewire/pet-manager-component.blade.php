@@ -1,6 +1,5 @@
 <div>
     <div class="w-full flex items-center justify-end my-5">
-
         <x-filter class="w-80" model="search" />
         <x-button class="mx-4" wire:click="showAdd">Agregar Mascota</x-button>
     </div>
