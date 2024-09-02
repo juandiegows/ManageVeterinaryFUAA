@@ -51,6 +51,13 @@ class BreedManagerComponent extends Component
             ->paginate($this->filterCount);
     }
 
+    public function setBreedPetForUpdate(BreedPet $breedPet)
+    {
+        $this->dataBreedPet = $breedPet->toArray();
+        $this->modalCreate = true;
+    }
+
+
     public function store()
     {
         $this->validate(["dataBreedPet.name" => "required","dataBreedPet.type_pet_id" => "required"],
@@ -62,6 +69,22 @@ class BreedManagerComponent extends Component
         $type->type_pet_id = $this->dataBreedPet['type_pet_id']; 
         $type->save();
         flash()->success('Se ha agregado correctamente.');
+
+        $this->reset(['dataBreedPet', 'modalCreate']);
+    }
+
+    
+    public function update()
+    {
+        $this->validate(["dataBreedPet.name" => "required","dataBreedPet.type_pet_id" => "required"],
+         ["dataBreedPet.name.required"=> "El nombre es obligatorio",
+         "dataBreedPet.type_pet_id.required"=> "El tipo es obligatorio"]);
+
+        $type =  BreedPet::find( $this->dataBreedPet['id']);
+        $type->name = $this->dataBreedPet['name']; 
+        $type->type_pet_id = $this->dataBreedPet['type_pet_id']; 
+        $type->save();
+        flash()->success('Se ha actualizado correctamente.');
 
         $this->reset(['dataBreedPet', 'modalCreate']);
     }

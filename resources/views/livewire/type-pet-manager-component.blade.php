@@ -73,7 +73,7 @@
                                                     </g>
                                                 </g>
                                             </svg>
-                                            {{ __('Eliminar tipo de mascota Mascota') }}
+                                            {{ __('Eliminar tipo de Mascota') }}
                                         </div>
                                     </x-dropdown-link>
 
