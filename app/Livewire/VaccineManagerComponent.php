@@ -25,7 +25,6 @@ class VaccineManagerComponent extends Component
 
     public function mount()
     {
-        $this->loadVaccines();
         $this->loadTypePets();
     }
 
@@ -88,7 +87,7 @@ class VaccineManagerComponent extends Component
                 $vaccine->TypePetVaccine()->delete();
                 $vaccine->delete();
                 flash()->success('Se ha eliminado correctamente.');
-                $this->loadVaccines();
+                
                 $this->reset(['dataVaccine', 'modelDelete']);
             } else {
                 $this->dataVaccine = $vaccine->toArray();
@@ -120,7 +119,7 @@ class VaccineManagerComponent extends Component
             }
             DB::commit();
             flash()->success('Se ha agregado correctamente.');
-            $this->loadVaccines();
+
             $this->reset(['dataVaccine', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataVaccine', 'modelCreate']);

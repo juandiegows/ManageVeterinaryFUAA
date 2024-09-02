@@ -10,11 +10,12 @@ use App\validations\UserValidation;
 use Flasher\Prime\Notification\NotificationInterface;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserManagerComponent extends Component
 {
-
-    public $users;
+    use WithPagination;
+    public $filterCount = 10;
     public $search = '';
     public $modelCreate = false;
     public $modelDelete = false;
@@ -26,13 +27,15 @@ class UserManagerComponent extends Component
 
     public function mount()
     {
-        $this->loadUsers();
         $this->loadRoles();
     }
 
     public function render()
     {
-        return view('livewire.user-manager-component');
+        return view(
+            'livewire.user-manager-component',
+            ['users' => $this->loadUsers()]
+        );
     }
 
     public function close()
@@ -56,7 +59,7 @@ class UserManagerComponent extends Component
     {
         $searchTerm = '%' . $this->search . '%';
 
-        $this->users = User::select('users.*')
+        return User::select('users.*')
             ->join('roles', 'users.role_id', '=', 'roles.id')  // Asegúrate de que 'role_id' es la columna en 'users' que hace referencia a 'roles'
             ->where(function ($query) use ($searchTerm) {
                 $query->where('users.name', 'like', $searchTerm)
@@ -64,13 +67,9 @@ class UserManagerComponent extends Component
                     ->orWhere('roles.name', 'like', $searchTerm);
             })
             ->orderBy('users.name')
-            ->get();
+            ->paginate($this->filterCount);
     }
 
-    public function updatedSearch()
-    {
-        $this->loadUsers();
-    }
 
 
     public function showAdd()
@@ -114,7 +113,7 @@ class UserManagerComponent extends Component
             }
             DB::commit();
             flash()->success('Se ha agregado correctamente.');
-            $this->loadUsers();
+   
             $this->reset(['dataUser', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataUser', 'modelCreate']);
@@ -136,7 +135,7 @@ class UserManagerComponent extends Component
             }
             DB::commit();
             flash()->success('Se ha actualizado correctamente.');
-            $this->loadUsers();
+      
             $this->reset(['dataUser', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataUser', 'modelCreate']);

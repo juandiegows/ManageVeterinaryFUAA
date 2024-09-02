@@ -1,6 +1,6 @@
 <div class="my-4">
     <div class="flex justify-between align-middle items-center">
-        <select wire:model="filterCount" class="px-2 w-60 h-min border bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar">
+        <select wire:model.live="filterCount" class="px-2 w-60 h-min border bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar">
             <option value="10">10 registros</option>
             <option value="20">20 registros</option>
             <option value="50">50 registros</option>
@@ -15,7 +15,7 @@
     </div>
 
 
-    <div class="w-full h-full mb-2">
+    <div class="w-full h-full ">
         <div class="my-2">
             {{ $vaccines->links() }}
         </div>
