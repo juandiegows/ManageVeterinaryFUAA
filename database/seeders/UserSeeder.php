@@ -40,6 +40,14 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Admin',
+                'email' => 'admin@juandiegows.com',
+                'password' => Hash::make('password'),
+                'role_id' => 1, // Rol: Doctor
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
 
             // Usuarios de ejemplo (Rol: Usuario)
             [
