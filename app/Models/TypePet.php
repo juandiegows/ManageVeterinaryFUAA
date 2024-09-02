@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class TypePet extends Model
 {
     use HasFactory;
+
+    public function pets()
+    {
+        return $this->hasMany(Pet::class);
+    }
+
+    public function typePetVaccines()
+    {
+        return $this->hasMany(TypePetVaccine::class);
+    }
 }

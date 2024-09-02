@@ -12,6 +12,7 @@ class TypePetManagerComponent extends Component
     public $filterCount = 10;
     public $search = '';
     public $modalCreate = false;
+    public $modalDelete = false;
     public $dataTypePet = [];
 
 
@@ -64,5 +65,23 @@ class TypePetManagerComponent extends Component
         flash()->success('Se ha actualizado correctamente.');
 
         $this->reset(['dataTypePet', 'modalCreate']);
+    }
+
+    public function deleteTypePet(TypePet $typePet, $confirmed = false)
+    {
+        if ($confirmed) {
+            $typePet->delete();
+            flash()->success('Se ha Eliminado correctamente.');
+
+            $this->reset(['dataTypePet', 'modalDelete']);
+        } else {
+           
+            if (count($typePet->pets) > 0) {
+                flash()->error('No se puede eliminar porque hay mascotas registradas.');
+                return;
+            }
+            $this->dataTypePet = $typePet->toArray();
+            $this->modalDelete = true;
+        }
     }
 }
