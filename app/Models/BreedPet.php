@@ -11,4 +11,8 @@ class BreedPet extends Model
     public function TypePet(){
         return $this->belongsTo(TypePet::class);
     }
+
+    public function pets(){
+        return $this->hasMany(Pet::class);
+    }
 }

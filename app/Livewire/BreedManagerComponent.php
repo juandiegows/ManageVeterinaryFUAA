@@ -88,4 +88,23 @@ class BreedManagerComponent extends Component
 
         $this->reset(['dataBreedPet', 'modalCreate']);
     }
+
+    
+    public function deleteBreedPet(BreedPet $typePet, $confirmed = false)
+    {
+        if ($confirmed) {
+            $typePet->delete();
+            flash()->success('Se ha Eliminado correctamente.');
+
+            $this->reset(['dataBreedPet', 'modalDelete']);
+        } else {
+           
+            if (count($typePet->pets) > 0) {
+                flash()->error('No se puede eliminar porque hay mascotas registradas.');
+                return;
+            }
+            $this->dataBreedPet = $typePet->toArray();
+            $this->modalDelete = true;
+        }
+    }
 }

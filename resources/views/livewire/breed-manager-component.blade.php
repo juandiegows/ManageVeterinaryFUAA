@@ -49,7 +49,7 @@
                                         </div>
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link wire:click="deleteTypePet({{ $pet->id }})" class="cursor-pointer">
+                                    <x-dropdown-link wire:click="deleteBreedPet({{ $pet->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 64">
                                                 <defs>
@@ -141,6 +141,28 @@
                     @else
                     <x-button class="mx-4" wire:click="update">Actualizar raza de mascota</x-button>
                     @endif
+                </div>
+            </x-modal>
+        </template>
+    </div>
+
+    <div x-data="{ modal: $wire.entangle('modalDelete') }">
+        <template x-if="modal">
+            <x-modal maxWidth="w60">
+                <div @click="modal = false" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                </div>
+    
+                <div class="w-full m-auto p-10 space-y-5 relative">
+                    <h3 class="text-2xl text-white">Eliminar la raza de mascota</h3>
+                    <p class="text-white">¿está seguro que desea eliminar  la raza de mascota <b class="text-red-900">{{ $dataBreedPet['name'] ?? '' }} </b>?</p>
+                </div>
+    
+    
+                <div class="w-[95%] m-auto flex items-center justify-end my-5">
+                    <x-button class="mx-4" wire:click="deleteBreedPet({{ $dataBreedPet['id'] ?? '' }}, true)">Eliminar raza</x-button>
                 </div>
             </x-modal>
         </template>
