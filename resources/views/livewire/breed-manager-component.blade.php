@@ -93,4 +93,56 @@
             {{ $breedPets->links() }}
         </div>
     </div>
+
+    <div x-data="{ modal: $wire.entangle('modalCreate') }">
+        <template x-if="modal">
+            <x-modal maxWidth="w60">
+                <div @click="modal = false" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                </div>
+
+                <div class="w-full m-auto p-10 space-y-5 relative">
+                    @if (!isset($dataBreedPet['id']))
+                    <h3 class="text-2xl text-white">Crear raza de mascota</h3>
+                    @else
+                    <h3 class="text-2xl text-white">Actualizar raza de mascota</h3>
+                    @endif
+                </div>
+
+                <div class="flex flex-wrap w-[95%] m-auto">
+                    <div class="mb-3 w-[48%]">
+                        <x-label class="my-2">Raza de mascota</x-label>
+                        <x-input type="text" wire:model="dataBreedPet.name" class="px-2 py-2 border w-full text-white outline-none rounded-md" placeholder="Ingresar el nombre" />
+                        @error('dataBreedPet.name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 w-[48%] ml-[2%]">
+                        <x-label class="my-2">Tipo de mascota</x-label>
+                        <select wire:model.live="dataBreedPet.type_pet_id" class="px-2 py-2 border w-full bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar un tipo de mascota">
+                            <option value="">Seleccionar tipo de mascota</option>
+                            @foreach ($typePets as $typePetItem)
+                            <option value="{{ $typePetItem['id'] }}">{{ $typePetItem['name'] }}</option>
+                            @endforeach
+                        </select>
+                        @error('dataBreedPet.type_pet_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="w-[95%] m-auto flex items-center justify-end my-5">
+                    @if (!isset($dataBreedPet['id']))
+                    <x-button class="mx-4" wire:click="store">Guardar raza de mascota</x-button>
+                    @else
+                    <x-button class="mx-4" wire:click="update">Actualizar raza de mascota</x-button>
+                    @endif
+                </div>
+            </x-modal>
+        </template>
+    </div>
 </div>
