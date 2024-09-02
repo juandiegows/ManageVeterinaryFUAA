@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     {{-- <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    {{ __('Dashboard') }}
                     </x-nav-link> --}}
 
                     <x-nav-link href="{{ route('manage-users') }}" :active="request()->routeIs('manage-users')">
@@ -28,12 +28,12 @@
                         {{ __('Administrar Vacuna') }}
                     </x-nav-link>
 
-                    {{-- <x-nav-link href="{{ route('manage-pet-types') }}" :active="request()->routeIs('manage-pet-types')">
+                    <x-nav-link href="{{ route('manage-pet-types') }}" :active="request()->routeIs('manage-pet-types')">
                         {{ __('Administrar Tipo de mascota') }}
                     </x-nav-link>
-
+                    {{--
                     <x-nav-link href="{{ route('manage-pet-breeds') }}" :active="request()->routeIs('manage-pet-breeds')">
-                        {{ __('Administrar raza') }}
+                    {{ __('Administrar raza') }}
                     </x-nav-link> --}}
                 </div>
             </div>
