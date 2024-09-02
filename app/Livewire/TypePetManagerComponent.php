@@ -26,7 +26,7 @@ class TypePetManagerComponent extends Component
     {
         $searchTerm = '%' . $this->search . '%';
 
-        return TypePet::where('name','like', $searchTerm)
+        return TypePet::where('name', 'like', $searchTerm)
             ->paginate($this->filterCount);
     }
 
@@ -36,15 +36,33 @@ class TypePetManagerComponent extends Component
         $this->modalCreate = true;
     }
 
-    public function store(){
+    public function setTypePetForUpdate(TypePet $typePet)
+    {
+        $this->dataTypePet = $typePet->toArray();
+        $this->modalCreate = true;
+    }
+
+    public function store()
+    {
         $this->validate(["dataTypePet.name" => "required"], ["required", "El nombre es obligatorio"]);
 
         $type = new TypePet();
         $type->name = $this->dataTypePet['name'];
         $type->save();
         flash()->success('Se ha agregado correctamente.');
-   
+
         $this->reset(['dataTypePet', 'modalCreate']);
     }
 
+    public function update()
+    {
+        $this->validate(["dataTypePet.name" => "required"], ["required", "El nombre es obligatorio"]);
+
+        $type =  TypePet::find($this->dataTypePet['id']);
+        $type->name = $this->dataTypePet['name'];
+        $type->save();
+        flash()->success('Se ha actualizado correctamente.');
+
+        $this->reset(['dataTypePet', 'modalCreate']);
+    }
 }

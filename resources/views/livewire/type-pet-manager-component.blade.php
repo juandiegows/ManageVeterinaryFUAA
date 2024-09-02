@@ -37,7 +37,7 @@
 
                                 <x-slot name="content">
             
-                                    <x-dropdown-link wire:click="setPetForUpdate({{ $pet->id }})" class="cursor-pointer">
+                                    <x-dropdown-link wire:click="setTypePetForUpdate({{ $pet->id }})" class="cursor-pointer">
                                         <div class="flex items-center">
                                             <svg class="pr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
                                                 <path d="M12.8214 6.10714V12H3V2.17857H8.89286M5.75 7.67857L12.4286 1L14 2.57143L7.32143 9.25M5.75 7.67857L4.96429 10.0357L7.32143 9.25M5.75 7.67857L7.32143 9.25M10.8571 2.57143L12.4286 4.14286" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
