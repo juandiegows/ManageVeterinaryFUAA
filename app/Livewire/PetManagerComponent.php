@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class PetManagerComponent extends Component
 {
 
     use WithFileUploads;
-    public $pets;
+    use WithPagination;
+    public $filterCount = 10;
     public $typePets;
     public $genders;
     public $breeds;
@@ -40,7 +42,6 @@ class PetManagerComponent extends Component
     public $vaccinateId = null;
     public function mount()
     {
-        $this->loadPets();
         $this->loadTypePets();
         $this->loadGenders();
         $this->loadBreeds();
@@ -58,7 +59,12 @@ class PetManagerComponent extends Component
 
     public function render()
     {
-        return view('livewire.pet-manager-component');
+        return view(
+            'livewire.pet-manager-component',
+            [
+                'pets' => $this->loadPets()
+            ]
+        );
     }
 
 
@@ -96,12 +102,12 @@ class PetManagerComponent extends Component
     {
         $searchTerm = '%' . $this->search . '%';
 
-        $this->pets = Pet::select('pets.*')
+        return  Pet::select('pets.*')
             ->where(function ($query) use ($searchTerm) {
                 $query->where('pets.name', 'like', $searchTerm);
             })
             ->orderBy('pets.name')
-            ->get();
+            ->paginate($this->filterCount);
     }
 
 
@@ -143,7 +149,7 @@ class PetManagerComponent extends Component
             if ($confirmed) {
                 $pet->delete();
                 flash()->success('Se ha eliminado correctamente.');
-                $this->loadPets();
+            
                 $this->reset(['dataPet', 'modelDelete']);
             } else {
                 $this->dataPet = $pet->toArray();
@@ -170,8 +176,9 @@ class PetManagerComponent extends Component
             }
             DB::commit();
             flash()->success('Se ha agregado correctamente.');
-            $this->loadPets();
+
             $this->reset(['dataPet', 'modelCreate']);
+
         } catch (\Throwable $th) {
             $this->reset(['dataPet', 'modelCreate']);
             flash()->error("Ha ocurrido un error" . $th->getMessage());
@@ -200,7 +207,7 @@ class PetManagerComponent extends Component
             }
             DB::commit();
             flash()->success('Se ha actualizado correctamente.');
-            $this->loadPets();
+      
             $this->reset(['dataPet', 'modelCreate']);
         } catch (\Throwable $th) {
             $this->reset(['dataPet', 'modelCreate']);

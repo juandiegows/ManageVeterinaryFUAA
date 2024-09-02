@@ -1,10 +1,26 @@
 <div>
-    <div class="w-full flex items-center justify-end my-5">
-        <x-filter class="w-80" model="search" />
-        <x-button class="mx-4" wire:click="showAdd">Agregar Mascota</x-button>
+
+    <div class="flex justify-between align-middle items-center">
+        <select wire:model.live="filterCount" class="px-2 w-60 h-min border bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar">
+            <option value="10">10 registros</option>
+            <option value="20">20 registros</option>
+            <option value="50">50 registros</option>
+            <option value="100">100 registros</option>
+        </select>
+
+        <div class="w-full flex items-center justify-end my-5">
+            <x-filter class="w-80" model="search" />
+            <x-button class="mx-4" wire:click="showAdd">Agregar Mascota</x-button>
+        </div>
     </div>
 
+
+
     <div class="w-full h-full mb-2">
+        <div class="my-2">
+            {{ $pets->links() }}
+        </div>
+
         <x-table :ths="['NOMBRE', 'TIPO MASCOTA', 'RAZA','GENERO','DUEÑO', 'FECHA DE CREACIÓN', 'ACCIONES']">
             <x-slot name="trs">
                 @foreach ($pets as $pet)
@@ -109,6 +125,10 @@
                 @endforeach
             </x-slot>
         </x-table>
+
+        <div class="my-2">
+            {{ $pets->links() }}
+        </div>
     </div>
 
 
