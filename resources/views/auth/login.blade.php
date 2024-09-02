@@ -12,7 +12,7 @@
             </div>
         @endsession
 
-        <h3>Para poder probar el aplicativo el usuario y contraseña son admin@juandiegows.com y password</h3>
+        <h3 class="my-4">Para poder probar el aplicativo el usuario y contraseña son admin@juandiegows.com y password</h3>
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
