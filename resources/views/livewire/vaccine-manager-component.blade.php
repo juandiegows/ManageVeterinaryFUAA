@@ -1,11 +1,25 @@
 <div class="my-4">
-    <div class="w-full flex items-center justify-end my-5">
-        <x-filter class="w-80" model="search" />
-        <x-button class="mx-4" wire:click="showAdd">Agregar Vacuna</x-button>
+    <div class="flex justify-between align-middle items-center">
+        <select wire:model="filterCount" class="px-2 w-60 h-min border bg-gray-900 text-white outline-none rounded-md" placeholder="Seleccionar">
+            <option value="10">10 registros</option>
+            <option value="20">20 registros</option>
+            <option value="50">50 registros</option>
+            <option value="100">100 registros</option>
+        </select>
+
+        <div class="w-full flex items-center justify-end my-5">
+            <x-filter class="w-80" model="search" />
+            <x-button class="mx-4" wire:click="showAdd">Agregar Vacuna</x-button>
+        </div>
+
     </div>
 
 
     <div class="w-full h-full mb-2">
+        <div class="my-2">
+            {{ $vaccines->links() }}
+        </div>
+
         <x-table :ths="['NOMBRE', 'DESCRIPCION', 'FECHA DE CREACIÓN', 'ACCIONES']">
             <x-slot name="trs">
                 @foreach ($vaccines as $vaccine)
@@ -63,6 +77,10 @@
                 @endforeach
             </x-slot>
         </x-table>
+
+        <div class="my-2">
+            {{ $vaccines->links() }}
+        </div>
     </div>
 
 
@@ -108,7 +126,7 @@
                             <div class="inline-flex items-center">
                                 <label class="relative flex cursor-pointer items-center rounded-full " for="type_{{ $typePetItem['id'] }}" data-ripple-dark="true">
                                     @if (in_array($typePetItem['id'], $this->dataVaccine['typePets'] ?? []))
-                                    <input type="checkbox"  checked wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
+                                    <input type="checkbox" checked wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
                                     @else
                                     <input type="checkbox" wire:click="toggleElement({{ $typePetItem['id'] }})" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500 hover:before:opacity-10" id="type_{{ $typePetItem['id'] }}" />
 
@@ -141,27 +159,27 @@
         </template>
     </div>
 
-    
-<div x-data="{ modelCreate: $wire.entangle('modelDelete') }">
-    <template x-if="modelCreate">
-        <x-modal maxWidth="w60">
-            <div @click="modelCreate = false" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
-                    <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                </svg>
-            </div>
 
-            <div class="w-full m-auto p-10 space-y-5 relative">
-                <h3 class="text-2xl text-white">Eliminar vacuna</h3>
-                <p class="text-white">¿está seguro que desea eliminar la vacuna <b class="text-red-900">{{ $dataVaccine['name'] ?? '' }} </b>?</p>
-            </div>
+    <div x-data="{ modelCreate: $wire.entangle('modelDelete') }">
+        <template x-if="modelCreate">
+            <x-modal maxWidth="w60">
+                <div @click="modelCreate = false" class="w-10 h-10 z-50 top-3 right-3 shadow-md shadow-[#000000]/10 absolute bg-[#F1F5F9] hover:bg-[#F1F5F9]/90 rounded-full text-[#64748B] border border-[#E2E8F0] flex justify-center items-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-7 h-7">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                </div>
+
+                <div class="w-full m-auto p-10 space-y-5 relative">
+                    <h3 class="text-2xl text-white">Eliminar vacuna</h3>
+                    <p class="text-white">¿está seguro que desea eliminar la vacuna <b class="text-red-900">{{ $dataVaccine['name'] ?? '' }} </b>?</p>
+                </div>
 
 
-            <div class="w-[95%] m-auto flex items-center justify-end my-5">
-                <x-button class="mx-4" wire:click="deleteVaccine({{ $dataVaccine['id'] ?? '' }}, true)">Eliminar Mascota</x-button>
-            </div>
-        </x-modal>
-    </template>
-</div>
+                <div class="w-[95%] m-auto flex items-center justify-end my-5">
+                    <x-button class="mx-4" wire:click="deleteVaccine({{ $dataVaccine['id'] ?? '' }}, true)">Eliminar Mascota</x-button>
+                </div>
+            </x-modal>
+        </template>
+    </div>
 
 </div>

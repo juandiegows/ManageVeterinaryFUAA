@@ -8,10 +8,12 @@ use App\Models\Vaccine;
 use App\validations\VaccineValidation;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class VaccineManagerComponent extends Component
 {
-    public $vaccines;
+
+    use WithPagination;
     public $types = [];
     public $dataVaccine = [
         'typePets' => []
@@ -19,6 +21,7 @@ class VaccineManagerComponent extends Component
     public $modelCreate = false;
     public $modelDelete = false;
     public $typePets;
+    public $filterCount = 10;
 
     public function mount()
     {
@@ -28,13 +31,16 @@ class VaccineManagerComponent extends Component
 
     public function render()
     {
-        return view('livewire.vaccine-manager-component');
+        return view('livewire.vaccine-manager-component', [
+            'vaccines' => $this->loadVaccines(),
+        ]);
     }
 
 
     public function loadVaccines()
     {
-        $this->vaccines = Vaccine::orderByDesc('created_at')->get();
+        return Vaccine::orderByDesc('created_at')
+            ->paginate($this->filterCount);
     }
 
 
@@ -73,7 +79,7 @@ class VaccineManagerComponent extends Component
         }
     }
 
-    
+
     public function deleteVaccine(Vaccine $vaccine, $confirmed = false)
     {
         try {
