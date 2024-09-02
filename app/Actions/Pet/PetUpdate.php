@@ -8,7 +8,6 @@ use Illuminate\Database\QueryException;
 class PetUpdate
 {
 
-
     public static function create(array $data): Pet|QueryException
     {
         try {

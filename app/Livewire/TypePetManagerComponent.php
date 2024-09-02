@@ -57,7 +57,7 @@ class TypePetManagerComponent extends Component
 
     public function update()
     {
-        $this->validate(["dataTypePet.name" => "required"], ["required", "El nombre es obligatorio"]);
+        $this->validate(["dataTypePet.name" => "required"], ["required"=> "El nombre es obligatorio"]);
 
         $type =  TypePet::find($this->dataTypePet['id']);
         $type->name = $this->dataTypePet['name'];
