@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BreedPet extends Model
 {
     use HasFactory;
+    public function TypePet(){
+        return $this->belongsTo(TypePet::class);
+    }
 }

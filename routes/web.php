@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\BreedManagerComponent;
 use App\Livewire\PetManagerComponent;
 use App\Livewire\TypePetManagerComponent;
 use App\Livewire\UserManagerComponent;
@@ -27,7 +28,5 @@ Route::middleware([
 
     Route::get('/pet-types/manage', TypePetManagerComponent::class)->name('manage-pet-types');
 
-    Route::get('/pet-breeds/manage', function () {
-        return view('manage-pet-breeds');
-    })->name('manage-pet-breeds');
+    Route::get('/pet-breeds/manage', BreedManagerComponent::class)->name('manage-pet-breeds');
 });
